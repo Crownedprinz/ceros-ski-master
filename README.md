@@ -29,11 +29,19 @@ unclear, don't hesitate to reach out.
     1. Press the left arrow key
   * Expected Result: The skier gets up and is facing to the left
   * Actual Result: Giant blizzard occurs causing the screen to turn completely white (or maybe the game just crashes!)
+
+* **BugFixes **
+  * skier only moves on press of right arrow button It should keep moving
+  * skier only moves on press of right arrow button. It should keep moving
+
   
 * **Write unit tests:**
 
   The base code has Jest, a unit testing framework, installed. Write some unit tests to ensure that the above mentioned
   bug does not come back.
+
+* ** Added Skier Unit Tests: **
+  *Added unit test for all directions functionality
   
 * **Extend existing functionality:**
 
@@ -45,6 +53,9 @@ unclear, don't hesitate to reach out.
     * Rocks can be jumped over
     * Trees can NOT be jumped over
   * Anything else you'd like to add to the skier's jumping ability, go for it!
+
+* **Extend Jump Feature
+  * Skier can jump over rocks 
    
 * **Build something new:**
 
@@ -54,6 +65,9 @@ unclear, don't hesitate to reach out.
   * The Rhino should appear after a set amount of time or distance skied and chase the skier, using the running assets
     we've provided to animate the rhino.
   * If the rhino catches the skier, it's game over and the rhino should eat the skier. 
+
+* **Destroy Skier
+  *A Rhino Appears after a particular time and eats up the Skier
 
 * **Documentation:**
 
