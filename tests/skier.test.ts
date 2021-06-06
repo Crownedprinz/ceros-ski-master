@@ -1,8 +1,12 @@
 import "babel-polyfill";
-import { Skier } from "../Entities/Skier";
+import Skier from "../src/services/skierService";
 
 describe("Skier should move in this direction", () => {
-  let skier, exp_left, exp_right, left_speed, right_speed;
+    let skier : Skier;
+    let exp_left: number
+    let  exp_right: number
+    let  left_speed: number
+    let  right_speed: number
   beforeEach(() => {
     skier = new Skier(0, 0);
     exp_left = 1;

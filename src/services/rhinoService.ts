@@ -1,25 +1,30 @@
-import * as Constants from "../Constants";
-import { Entity } from "./Entity";
-import { intersectTwoRects, Rect } from "../Core/Utils";
+import { Service } from "typedi";
+import * as Constants from "../constants/consts";
+import AssetManager from "../loaders/assetManager";
+import Canvas from "../loaders/canvas";
+import Entity  from "../loaders/entity";
+import { intersectTwoRects, Rect } from "../utilities/utils";
+import Skier from "./skierService";
 
 const RHINO_SKIER_STARTING_DISTANCE = 3000;
 const ACTION_DURATION = 700;
 
-export class Rhino extends Entity {
+@Service()
+export default class Rhino extends Entity {
   assetName = Constants.RHINO_RUN_LEFT;
   action = Constants.RHINO_ACTIONS.CHASE_SKIER;
 
-  constructor(x, y) {
+  constructor(x: number, y: number) {
     super(x, y);
   }
 
-  drawRhino(canvas, assetManager) {
+  drawRhino(canvas: Canvas, assetManager: AssetManager) {
     if (this.y >= RHINO_SKIER_STARTING_DISTANCE) {
       this.draw(canvas, assetManager);
     }
   }
 
-  move(skier) {
+  move(skier: Skier) {
     if (
       skier.y >= RHINO_SKIER_STARTING_DISTANCE &&
       this.action === Constants.RHINO_ACTIONS.CHASE_SKIER
@@ -45,23 +50,23 @@ export class Rhino extends Entity {
     }
   }
 
-  moveLeft(skier_speed) {
+  moveLeft(skier_speed: number) {
     this.x += skier_speed;
   }
 
-  moveRight(skier_speed) {
+  moveRight(skier_speed: number) {
     this.x += skier_speed * 2;
   }
 
-  moveUp(skier_position_x) {
+  moveUp(skier_position_x: number) {
     this.x = skier_position_x - RHINO_SKIER_STARTING_DISTANCE * 2;
   }
 
-  moveDown(skier_position_y) {
+  moveDown(skier_position_y: number) {
     this.x = skier_position_y - RHINO_SKIER_STARTING_DISTANCE * 2;
   }
 
-  destroySkier(assetManager, skier) {
+  endIfRhinoCatchSkier(assetManager: AssetManager, skier: Skier) {
     if (this.action === Constants.RHINO_ACTIONS.CHASE_SKIER) {
       const asset = assetManager.getAsset(this.assetName);
       const RhinoBounds = new Rect(
@@ -87,14 +92,14 @@ export class Rhino extends Entity {
     }
   }
 
-  removeSkier(skier) {
+  removeSkier(skier: Skier) {
     skier.direction = Constants.SKIER_DIRECTIONS.KILL;
     skier.y = this.y;
     skier.x = this.x;
     skier.assetName = Constants.KILL_SKIER;
   }
 
-  setAction(action) {
+  setAction(action: number) {
     this.action = action;
     this.updateAsset();
   }
@@ -103,7 +108,7 @@ export class Rhino extends Entity {
     this.assetName = Constants.RHINO_ACTION_ASSET[this.action];
   }
 
-  updateAction(skier) {
+  updateAction(skier: Skier) {
     if (this.action) {
       this.removeSkier(skier);
       switch (this.action) {
@@ -123,7 +128,7 @@ export class Rhino extends Entity {
     }
   }
 
-  changeAction(rhinoAction) {
+  changeAction(rhinoAction: number) {
     var _this = this;
     setTimeout(function () {
       _this.setAction(rhinoAction);

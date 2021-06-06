@@ -33,6 +33,8 @@ unclear, don't hesitate to reach out.
 * **BugFixes **
   * skier only moves on press of right arrow button It should keep moving
   * skier only moves on press of right arrow button. It should keep moving
+  * Changed Implementation to Typescript
+  * Added Dependency injection with typedi framework
 
   
 * **Write unit tests:**
