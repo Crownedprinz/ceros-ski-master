@@ -53,15 +53,13 @@ export default class Game {
   }
 
   updateGameWindow() {
-    this.drawInstuctions();
+    this.drawInstructions();
     this.skier.move();
     const previousGameWindow = this.gameWindow;
     this.calculateGameWindow();
-
     this.obstacleService.placeNewObstacle(this.gameWindow, previousGameWindow);
     this.skier.checkIfSkierHitObstacle(this.obstacleService, this.assetManager);
-    if(!this.isPaused)
-    this.score.updateScore(this.skier);
+    this.updateScore();
     this.rhino.move(this.skier);
     this.rhino.endIfRhinoCatchSkier(
       this.assetManager,
@@ -78,6 +76,18 @@ export default class Game {
     this.isPaused = false;
     this.obstacleService.restartObstacle();
     this.score.resetScore();
+    this.bkMusic.reset("public/sounds/background.mp3");
+  }
+
+  updateScore() {
+    if (!this.isPaused && !this.skier.isCrashed) {
+      this.score.updateScore();
+      this.updateLive();
+    }
+  }
+
+  updateLive() {
+    this.score.updateLive(this.skier.lives);
   }
 
   drawGameWindow() {
@@ -87,7 +97,7 @@ export default class Game {
     this.obstacleService.drawObstacles(this.canvas, this.assetManager);
     this.rhino.drawRhino(this.canvas, this.assetManager);
   }
-  drawInstuctions() {
+  drawInstructions() {
     this.canvas.drawText(
       "18px Consolas",
       "Red",
@@ -116,6 +126,18 @@ export default class Game {
       this.canvas.width / 1.2,
       100
     );
+  }
+
+  pause() {
+    if (this.isPaused) {
+      this.bkMusic.play();
+      this.skier.setDirection(this.skier.lastDirection);
+      this.isPaused = false;
+    } else {
+      this.bkMusic.stop();
+      this.isPaused = true;
+      this.skier.setDirection(Constants.SKIER_DIRECTIONS.PAUSE);
+    }
   }
   calculateGameWindow() {
     const skierPosition = this.skier.getPosition();
@@ -179,16 +201,6 @@ export default class Game {
         this.skier.turnLeftDown();
         event.preventDefault();
       }
-    }
-  }
-
-  pause() {
-    if (this.isPaused) {
-      this.skier.setDirection(this.skier.lastDirection);
-      this.isPaused = false;
-    } else {
-      this.isPaused = true;
-      this.skier.setDirection(Constants.SKIER_DIRECTIONS.PAUSE);
     }
   }
 }

@@ -1,58 +1,97 @@
 # Ceros Ski Code Challenge - Jayden
+[![npm](https://img.shields.io/node/v/node-media-server.svg)](https://nodejs.org/en/)
+[![npm](https://img.shields.io/npm/l/node-media-server.svg)](LICENSE) 
+
 
 Ski till you fly. This is an amazing challenging application where clean coding, unit testing and reusability is key. I have to admit, it took a bit to figure out how the whole game works, and it definitely activated some thinking process and coordinates study.
-You can check out my version at https://cerosja.herokuapp.com
-Implementations:
 
-- BugFixes
+# Usage 
+
+## Cloud version
+```
+You can check out my version at https://cerosja.herokuapp.com
+```
+## git version 
+```bash
+mkdir ceros-ski
+cd ceros-ski
+git clone https://github.com/Crownedprinz/ceros-ski-master.git
+npm i
+npm run start:dev
+```
+
+# Publishing to Heroku using gitflows
+```
+I am assuming you have created your app on heroku
+Go to github/workflows folder
+open ci.yml
+Replace the heroku url link with yours
+git remote add heroku {your heroku link}
+
+```
+
+# Controls
+  - Use the Space bar to Pause and Resume the Game
+  - Use the Left arrow key to go left
+  - Use the Right arrow key to go right
+  - Use the Down arrow key to go Downwards
+  - Use the Up arrow key to go jump over a rock
+  - Use the "R" key to restart the game
+
+
+# Implementations:
+
+## BugFixes
 
   - When you press the right arrow key or left arrow key, skier keeps moving right or left respectively
   - When you hit an obstacle and press the left key the game does not crash and the skier continue moving
 
-- Additional Features
+## Additional Features
+
   - Re-implemented the codebase with Typescript
-  - Added Dependency injection with typedi framework
+  - Added Dependency injection with type-di framework
   - Added unit test for rhino and skier services
   - The skier can jump by either the up key and the skier can jump over a rock while in air.
   - A Rhino will appear after an amount of time and chase the skier
   - If the rhino catches the skier, it's game over and the rhino will eat the skier.
-  - You can pause the game with the spacebar
-  - Added reset feature that can be invoked at any point in the game. 
-  - continuous integration and continuous deployment with github workflows
+  - You can pause the game with the space-bar
+  - Added reset feature that can be invoked at any point in the game.
+  - Continuous integration and continuous deployment with github workflows
   - Added Score Text to get the total score at the end of the game
   - Added Sound when Rhino eats up skier
   - Added Background music
+  - Cannot navigate skier on a touch device
 
-- Known issue: 
-  - if skier hits rock and game is paused. if game is resumed, skier moves instead of stucked to the tree
-  - Known issue
-  - Music does not stop when game is paused
-  - Music does not reset when game has reset
-  - Music does not continue after it has finished
-  - when game is over, the reset button has to be pressed twice
-  - when game is reset, score timer does not work
+## Known issue:
+
+  - If skier hits rock and game is paused. if game is resumed, skier moves instead of stuck to the tree
+  - When game is over, the reset button has to be pressed twice
+  - When game is reset, score timer does not work
   - Rhino comes out and eats you (regardless of your skiing skills!) once a certain score is reached
-  - Speed is dynamically increased based on time
+  - Speed should be dynamically increased based on time
+  - Lives reduction after a crash not accurate
 
-- Structure Used:
-  I used the Bulletproof structure which will avoid duplication of code, will improve stability, and 
-  potentially. The idea is to use the principle of separation of concerns to move the logic away from the game 
-  controller. Reusability is of great benefit here
+## Structure Used:
+  - I used the Bulletproof structure which will avoid duplication of code, will improve stability, and
+    potentially. The idea is to use the principle of separation of concerns to move the logic away from the game
+    controller. Reusability is of great benefit here
 
+## Lessons learnt
+  - Setting up webpack as a whole was a new experience for me and using Typescript to set up webpack was educative.
+  - It was a steep learning curve, and threw a lot of issues my way. The same can be said for
+  - I ran into a lot of issues setting up the webpack with typescript/ The collisions system is still something I need to
+    familiarize with even though I get the concept.
+  - Another Interesting thing I learnt was using canvas to build games and It exposed me to the power of DOM manipulation
 
-- Lessons learnt
-  Setting up webpack as a whole was a new experience for me and using Typescript to set up webpack was educative.
-  It was a steep learning curve, and threw a lot of issues my way. The same can be said for
-  I ran into a lot of issues setting up the webpack with typescript/ The collisions system is still something I need to 
-  familiarize with even though I get the concept. 
-  Another Interesting thing I learnt was using canvas to build games and It exposed me to the power of DOM manipulation
+## Other Features that could be improved
+  - Get some configurable variables from a config using dotenv library. 
 
-- Music
-  Main Theme (Overture) | The Grand Score by Alexander Nakarada | https://www.serpentsoundstudios.com
-  Music promoted by https://www.chosic.com/
-  Attribution 4.0 International (CC BY 4.0)
-  https://creativecommons.org/licenses/by/4.0/
+## Music
 
+  - Main Theme (Overture) | The Grand Score by Alexander Nakarada | https://www.serpentsoundstudios.com
+  - Music promoted by https://www.chosic.com/
+  - Attribution 4.0 International (CC BY 4.0)
+  - https://creativecommons.org/licenses/by/4.0/
 
 # Ceros Ski Code Challenge
 
@@ -151,5 +190,3 @@ how creative candidates get with this.
 - Write more unit tests for your code
 
 We are looking forward to see what you come up with!
-
-

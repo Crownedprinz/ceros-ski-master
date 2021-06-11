@@ -25,7 +25,7 @@ export default class Rhino extends Entity {
         this.x = 0;
         this.y = 0;
 
-  };
+  }
 
   drawRhino(canvas: Canvas, assetManager: AssetManager) {
     if (this.y >= RHINO_SKIER_STARTING_DISTANCE) {

@@ -22,9 +22,12 @@ module.exports = {
   resolve: {
     extensions: [".ts", ".js", ".tsx"],
   },
+  target: "web",
   output: {
     path: __dirname,
     publicPath: "/",
     filename: "bundle.js",
   },
 };
+
+

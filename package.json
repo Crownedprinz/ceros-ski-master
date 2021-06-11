@@ -4,10 +4,11 @@
   "description": "",
   "main": "index.ts",
   "scripts": {
-    "start:dev": "webpack-dev-server --mode development",
+    "start:dev": "npm test && webpack-dev-server --mode development",
     "start": "node server",
     "build": "webpack --mode production",
-    "test": "jest"
+    "test": "jest",
+    "coverage": "nyc -r lcov -e .ts -x \"*.test.ts\" npm run test"
   },
   "keywords": [],
   "author": "",
