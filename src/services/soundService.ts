@@ -20,12 +20,15 @@ export default class Sound {
       this.init(src);
       this.autoplay();
   }
+  
   play() {
     this.sound.play();
   }
+
   stop() {
     this.sound.pause();
   }
+
   autoplay(){
     this.sound.setAttribute("autoplay", "true");
     this.sound.setAttribute("muted", "true");

@@ -94,7 +94,7 @@ export default class Game {
     this.canvas.setDrawOffset(this.gameWindow.left, this.gameWindow.top);
     this.score.drawScore(this.canvas);
     this.skier.draw(this.canvas, this.assetManager);
-    this.obstacleService.drawObstacles(this.canvas, this.assetManager);
+    this.obstacleService.drawObstacles(this.canvas);
     this.rhino.drawRhino(this.canvas, this.assetManager);
   }
   drawInstructions() {

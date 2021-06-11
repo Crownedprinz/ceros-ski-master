@@ -12,21 +12,20 @@ const NEW_OBSTACLE_CHANCE = 8;
 
 @Service()
 export default class ObstacleManager {
-  obstacles:any = [];
+  obstacles: any = [];
 
-  constructor() {}
+  constructor(private assetManager: AssetManager) {}
 
-
-  restartObstacle(){
+  restartObstacle() {
     this.obstacles = [];
   }
   getObstacles() {
     return this.obstacles;
   }
 
-  drawObstacles(canvas:Canvas, assetManager:AssetManager) {
+  drawObstacles(canvas: Canvas) {
     this.obstacles.forEach((obstacle) => {
-      obstacle.draw(canvas, assetManager);
+      obstacle.draw(canvas, this.assetManager);
     });
   }
 
@@ -50,7 +49,7 @@ export default class ObstacleManager {
     });
   }
 
-  placeNewObstacle(gameWindow:any, previousGameWindow:any) {
+  placeNewObstacle(gameWindow: any, previousGameWindow: any) {
     const shouldPlaceObstacle = randomInt(1, NEW_OBSTACLE_CHANCE);
     if (shouldPlaceObstacle !== NEW_OBSTACLE_CHANCE) {
       return;
@@ -69,7 +68,7 @@ export default class ObstacleManager {
     }
   }
 
-  placeObstacleLeft(gameWindow:any) {
+  placeObstacleLeft(gameWindow: any) {
     this.placeRandomObstacle(
       gameWindow.left,
       gameWindow.left,
@@ -78,7 +77,7 @@ export default class ObstacleManager {
     );
   }
 
-  placeObstacleRight(gameWindow:any) {
+  placeObstacleRight(gameWindow: any) {
     this.placeRandomObstacle(
       gameWindow.right,
       gameWindow.right,
@@ -87,7 +86,7 @@ export default class ObstacleManager {
     );
   }
 
-  placeObstacleTop(gameWindow:any) {
+  placeObstacleTop(gameWindow: any) {
     this.placeRandomObstacle(
       gameWindow.left,
       gameWindow.right,
@@ -96,7 +95,7 @@ export default class ObstacleManager {
     );
   }
 
-  placeObstacleBottom(gameWindow:any) {
+  placeObstacleBottom(gameWindow: any) {
     this.placeRandomObstacle(
       gameWindow.left,
       gameWindow.right,

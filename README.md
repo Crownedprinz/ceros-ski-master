@@ -1,4 +1,4 @@
-# Ceros Ski Code Challenge - Jayden
+# Ceros Ski Code Challenge Using Typescript
 [![npm](https://img.shields.io/node/v/node-media-server.svg)](https://nodejs.org/en/)
 [![npm](https://img.shields.io/npm/l/node-media-server.svg)](LICENSE) 
 
