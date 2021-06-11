@@ -21,6 +21,7 @@ export const RHINO_LIFT_EAT1 = "rhinoLiftEat1";
 export const RHINO_LIFT_EAT2 = "rhinoLiftEat2";
 export const RHINO_LIFT_EAT3 = "rhinoLiftEat3";
 export const KILL_SKIER = "killSkier";
+export const PAUSE = "skierCrash";
 
 export const SKIER_STARTING_SPEED = 10;
 export const SKIER_DIAGONAL_SPEED_REDUCER = 1.4142;
@@ -56,6 +57,7 @@ export const SKIER_DIRECTIONS = {
   RIGHT: 5,
   UP: 6,
   KILL: 7,
+  PAUSE: 8
 };
 
 export const SKIER_DIRECTION_ASSET = {
@@ -67,6 +69,7 @@ export const SKIER_DIRECTION_ASSET = {
   [SKIER_DIRECTIONS.RIGHT]: SKIER_RIGHT,
   [SKIER_DIRECTIONS.UP]: SKIER_UP,
   [SKIER_DIRECTIONS.KILL]: KILL_SKIER,
+  [SKIER_DIRECTIONS.PAUSE]: PAUSE,
 };
 
 export const KEYS = {
@@ -74,6 +77,8 @@ export const KEYS = {
   RIGHT: 39,
   UP: 38,
   DOWN: 40,
+  SPACE: 32,
+  Reset: 82
 };
 
 export const RHINO_ACTIONS = {

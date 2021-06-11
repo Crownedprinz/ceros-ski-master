@@ -5,6 +5,7 @@ export default class AssetManager {
 
   constructor() {}
 
+
   async loadAssets(assets:{}) {
     const assetPromises: any = [];
 

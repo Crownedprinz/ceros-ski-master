@@ -16,6 +16,10 @@ export default class ObstacleManager {
 
   constructor() {}
 
+
+  restartObstacle(){
+    this.obstacles = [];
+  }
   getObstacles() {
     return this.obstacles;
   }

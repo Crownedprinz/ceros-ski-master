@@ -1,27 +1,38 @@
 import AssetManager from "../loaders/assetManager";
 import * as Constants from "../constants/consts";
 import ObstacleService from "../services/obstacleService";
-import  Canvas  from "../loaders/canvas";
-import Skier from "../services/skierService"
+import Canvas from "../loaders/canvas";
+import Skier from "../services/skierService";
 import { Rect } from "../utilities/utils";
-import Rhino from "../services/rhinoService"
+import Rhino from "../services/rhinoService";
 import { Service } from "typedi";
+import Score from "./scoreService";
+import Sound from "./soundService";
 
 @Service()
-export default class Game  {
+export default class Game {
   gameWindow: Rect = new Rect(0, 0, 0, 0);
-
+  private keys: any = [];
+  private bkMusic: any;
+  private isPaused: boolean = false;
   constructor(
     private assetManager: AssetManager,
     private obstacleService: ObstacleService,
     private skier: Skier,
     private canvas: Canvas,
-    private rhino: Rhino
+    private rhino: Rhino,
+    private score: Score,
+    private sound: Sound
   ) {
     this.skier = new Skier(0, 0);
     this.canvas = new Canvas(Constants.GAME_WIDTH, Constants.GAME_HEIGHT);
     this.rhino = new Rhino(0, 0);
+    this.score = new Score(0, 0);
+    this.sound = new Sound("public/sounds/failing.wav");
+    this.bkMusic = new Sound("public/sounds/background.mp3");
+    this.startBackGroundMusic();
     document.addEventListener("keydown", this.handleKeyDown.bind(this));
+    document.addEventListener("keyup", this.handleKeyDown.bind(this));
   }
 
   init() {
@@ -42,26 +53,69 @@ export default class Game  {
   }
 
   updateGameWindow() {
+    this.drawInstuctions();
     this.skier.move();
-
     const previousGameWindow = this.gameWindow;
     this.calculateGameWindow();
 
     this.obstacleService.placeNewObstacle(this.gameWindow, previousGameWindow);
-
     this.skier.checkIfSkierHitObstacle(this.obstacleService, this.assetManager);
-
+    if(!this.isPaused)
+    this.score.updateScore(this.skier);
     this.rhino.move(this.skier);
-    this.rhino.endIfRhinoCatchSkier(this.assetManager, this.skier);
+    this.rhino.endIfRhinoCatchSkier(
+      this.assetManager,
+      this.skier,
+      this.sound,
+      this.bkMusic
+    );
     this.rhino.updateAction(this.skier);
+  }
+
+  resetGame() {
+    this.skier.restartSkier();
+    this.rhino.restartRhino();
+    this.isPaused = false;
+    this.obstacleService.restartObstacle();
+    this.score.resetScore();
   }
 
   drawGameWindow() {
     this.canvas.setDrawOffset(this.gameWindow.left, this.gameWindow.top);
-
+    this.score.drawScore(this.canvas);
     this.skier.draw(this.canvas, this.assetManager);
     this.obstacleService.drawObstacles(this.canvas, this.assetManager);
     this.rhino.drawRhino(this.canvas, this.assetManager);
+  }
+  drawInstuctions() {
+    this.canvas.drawText(
+      "18px Consolas",
+      "Red",
+      `R button to reset game`,
+      this.canvas.width / 1.2,
+      40
+    );
+    this.canvas.drawText(
+      "18px Consolas",
+      "Red",
+      `spacebar to pause game`,
+      this.canvas.width / 1.2,
+      60
+    );
+    this.canvas.drawText(
+      "18px Consolas",
+      "Red",
+      `left | right | down keys to move`,
+      this.canvas.width / 1.2,
+      80
+    );
+    this.canvas.drawText(
+      "18px Consolas",
+      "Red",
+      `up button to jump over stones`,
+      this.canvas.width / 1.2,
+      100
+    );
   }
   calculateGameWindow() {
     const skierPosition = this.skier.getPosition();
@@ -75,27 +129,66 @@ export default class Game  {
       top + Constants.GAME_HEIGHT
     );
   }
+  startBackGroundMusic() {
+    this.bkMusic.autoplay();
+    this.bkMusic.play();
+  }
+
+  stopBackGroundMusic() {
+    this.bkMusic.stop();
+  }
 
   handleKeyDown(event: any) {
-    switch (event.which) {
-      case Constants.KEYS.LEFT:
+    if (event.type === "keyup") {
+      this.keys[event.which] = event.type == "keydown";
+    }
+    if (event.type === "keydown") {
+      this.keys = this.keys || [];
+      this.keys[event.which] = event.type == "keydown";
+    }
+    if (this.keys) {
+      if (this.keys[Constants.KEYS.LEFT]) {
         this.skier.turnLeft();
         event.preventDefault();
-        break;
-      case Constants.KEYS.RIGHT:
+      }
+      if (this.keys[Constants.KEYS.RIGHT]) {
         this.skier.turnRight();
         event.preventDefault();
-        break;
-      case Constants.KEYS.UP:
+      }
+      if (this.keys[Constants.KEYS.UP]) {
         this.skier.turnUp();
         event.preventDefault();
-        break;
-      case Constants.KEYS.DOWN:
+      }
+      if (this.keys[Constants.KEYS.DOWN]) {
         this.skier.turnDown();
         event.preventDefault();
-        break;
+      }
+      if (this.keys[Constants.KEYS.SPACE]) {
+        this.pause();
+        event.preventDefault();
+      }
+      if (this.keys[Constants.KEYS.Reset]) {
+        this.resetGame();
+        event.preventDefault();
+      }
+      if (this.keys[Constants.KEYS.DOWN] && this.keys[Constants.KEYS.RIGHT]) {
+        this.skier.turnRightDown();
+        event.preventDefault();
+      }
+      if (this.keys[Constants.KEYS.DOWN] && this.keys[Constants.KEYS.LEFT]) {
+        this.skier.turnLeftDown();
+        event.preventDefault();
+      }
     }
   }
 
- 
+  pause() {
+    if (this.isPaused) {
+      this.skier.setDirection(this.skier.lastDirection);
+      this.isPaused = false;
+    } else {
+      this.isPaused = true;
+      this.skier.setDirection(Constants.SKIER_DIRECTIONS.PAUSE);
+    }
+  }
 }

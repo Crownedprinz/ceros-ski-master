@@ -1,3 +1,6 @@
+import { Service } from "typedi";
+
+@Service()
 export default class Entity {
   x = 0;
   y = 0;

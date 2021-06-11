@@ -1,4 +1,5 @@
 import { Service } from "typedi";
+import * as Constants from "../constants/consts"
 
 @Service()
 export default class Canvas {
@@ -17,6 +18,20 @@ export default class Canvas {
     this.height = height;
 
     this.createCanvas();
+  }
+
+  restartCanvas(){
+    this.x = 0;
+    this.y = 0;
+    this.width = 0;
+    this.height = 0;
+    this.drawOffset = {
+      x: 0,
+      y: 0,
+    };
+    this.ctx = null;
+    this.width = Constants.GAME_WIDTH;
+    this.height  = Constants.GAME_HEIGHT;
   }
 
   createCanvas() {
@@ -47,5 +62,11 @@ export default class Canvas {
     y -= this.drawOffset.y;
 
     this.ctx.drawImage(image, x, y, width, height);
+  }
+
+  drawText(font: string, color: string, text: string, x:number, y:number){
+    this.ctx.font = font;
+    this.ctx.fillStyle = color;
+    this.ctx.fillText(text, x,y);
   }
 }

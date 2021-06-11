@@ -7,13 +7,22 @@ import AssetManager from "../loaders/assetManager";
 
 @Service()
 export default class Skier extends Entity {
-  assetName = Constants.SKIER_DOWN;
-
-  direction = Constants.SKIER_DIRECTIONS.DOWN;
-  speed = Constants.SKIER_STARTING_SPEED;
-
+  assetName: string = Constants.SKIER_DOWN;
+  direction: number = Constants.SKIER_DIRECTIONS.DOWN;
+  lastDirection: number = this.direction;
+  speed: number = Constants.SKIER_STARTING_SPEED;
+   isCrashed: boolean = false;
   constructor(x: number, y: number) {
     super(x, y);
+  }
+
+  restartSkier() {
+    this.assetName = Constants.SKIER_DOWN;
+    this.direction = Constants.SKIER_DIRECTIONS.DOWN;
+    this.lastDirection = this.direction;
+    this.speed = Constants.SKIER_STARTING_SPEED;
+    this.x = 0;
+    this.y = 0;
   }
 
   setDirection(direction: number) {
@@ -21,6 +30,9 @@ export default class Skier extends Entity {
     this.updateAsset();
   }
 
+  setLastDirection(direction: number) {
+    this.lastDirection = direction;
+  }
   updateAsset() {
     this.assetName = Constants.SKIER_DIRECTION_ASSET[this.direction];
   }
@@ -76,18 +88,48 @@ export default class Skier extends Entity {
 
   turnLeft() {
     this.setDirection(Constants.SKIER_DIRECTIONS.LEFT);
+    this.updateLastDirection();
+    this.updateCrashedStatus();
   }
 
   turnRight() {
     this.setDirection(Constants.SKIER_DIRECTIONS.RIGHT);
+    this.updateLastDirection();
+    this.updateCrashedStatus();
   }
 
   turnUp() {
     this.setDirection(Constants.SKIER_DIRECTIONS.UP);
+    this.updateLastDirection();
+    this.updateCrashedStatus();
   }
+
 
   turnDown() {
     this.setDirection(Constants.SKIER_DIRECTIONS.DOWN);
+    this.updateLastDirection();
+    this.updateCrashedStatus();
+  }
+
+  turnLeftDown() {
+    this.setDirection(Constants.SKIER_DIRECTIONS.LEFT_DOWN);
+    this.updateLastDirection();
+    this.updateCrashedStatus();
+  }
+  turnRightDown() {
+    this.setDirection(Constants.SKIER_DIRECTIONS.RIGHT_DOWN);
+    this.updateLastDirection();
+    this.updateCrashedStatus();
+  }
+  updateCrashedStatus() {
+    if (this.direction != Constants.SKIER_DIRECTIONS.CRASH) {
+      this.isCrashed = false;
+    }
+  }
+
+
+  updateLastDirection() {
+    this.setLastDirection(this.direction);
   }
 
   setSkierJumpOverRock(obstacleName: string) {
@@ -112,7 +154,10 @@ export default class Skier extends Entity {
     );
   }
 
-  checkIfSkierHitObstacle(obstacleService: ObstacleService, assetManager: AssetManager) {
+  checkIfSkierHitObstacle(
+    obstacleService: ObstacleService,
+    assetManager: AssetManager
+  ) {
     const asset = assetManager.getAsset(this.assetName);
     const skierBounds = new Rect(
       this.x - asset.width / 2,
@@ -143,6 +188,7 @@ export default class Skier extends Entity {
     });
 
     if (collision) {
+      this.isCrashed = true;
       this.setDirection(Constants.SKIER_DIRECTIONS.CRASH);
     }
   }

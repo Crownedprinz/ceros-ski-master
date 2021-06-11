@@ -1,0 +1,20 @@
+name: CI
+
+on: 
+    push:
+      branches:    
+        - dev
+
+
+jobs:
+
+    deploy:
+            name: CI
+            runs-on: ubuntu-latest
+          
+            steps: 
+                  - name: Checkout
+                    uses: actions/checkout@v1
+          
+                  - name: Add remote origin
+                    run: git remote add heroku https://heroku:$1d7c6ebe-1493-41a0-9c45-4a8b57550941@git.heroku.com/cerosja.git
