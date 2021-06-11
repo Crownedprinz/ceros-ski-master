@@ -72,14 +72,14 @@ git remote add heroku {your heroku link}
   - Lives reduction after a crash not accurate
 
 ## Structure Used:
-  - I used the Bulletproof structure which will avoid duplication of code, will improve stability, and
-    potentially. The idea is to use the principle of separation of concerns to move the logic away from the game
+  - I used the Bulletproof structure which will avoid duplication of code and will improve stability
+  - The idea is to use the principle of separation of concerns to move the logic away from the game
     controller. Reusability is of great benefit here
 
 ## Lessons learnt
   - Setting up webpack as a whole was a new experience for me and using Typescript to set up webpack was educative.
-  - It was a steep learning curve, and threw a lot of issues my way. The same can be said for
-  - I ran into a lot of issues setting up the webpack with typescript/ The collisions system is still something I need to
+  - It was a steep learning curve, and threw a lot of issues my way.
+  - I ran into a lot of issues setting up the webpack with typescript. The collisions system is still something I need to
     familiarize with even though I get the concept.
   - Another Interesting thing I learnt was using canvas to build games and It exposed me to the power of DOM manipulation
 
